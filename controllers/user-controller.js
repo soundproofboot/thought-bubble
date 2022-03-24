@@ -26,6 +26,22 @@ const userController = {
         res.status(400).json(err);
       });
   },
+
+  addFriend({ params }, res) {
+    User.findOneAndUpdate(
+      { _id: params.userId },
+      { $push: { friends: params.friendId }},
+      { new: true }
+      )
+        .then(dbUserData => {
+          if (!dbUserData) {
+            res.status(404).json({ message: 'No user with this id' });
+            return;
+          }
+          res.json(dbUserData);
+        })
+        .catch(err => res.json(err));
+  }
 }
 
 module.exports = userController;

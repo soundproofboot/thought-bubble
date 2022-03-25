@@ -1,4 +1,30 @@
-const { Schema, model } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
+
+const ReactionSchema = new Schema({
+  reactionId: {
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId(),
+  },
+  reactionBody: {
+    type: String,
+    required: true,
+    validate: {
+      validator: function (text) {
+        return text.length < 280;
+      },
+      message: 'Your thought is too long',
+    },
+  },
+  username: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+    // format date
+  }
+});
 
 const ThoughtSchema = new Schema({
   thoughtText: {
@@ -20,7 +46,7 @@ const ThoughtSchema = new Schema({
     type: String,
     required: true
   },
-  reactions: []
+  reactions: [ReactionSchema]
 }, {
   toJSON: {
     virtuals: true,

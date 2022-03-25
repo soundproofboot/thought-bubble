@@ -3,13 +3,13 @@ const { getAllThoughts, getOneThought, createThought, addReaction } = require('.
 
 router.route('/')
   .get(getAllThoughts)
+  .post(createThought);
 
 router.route('/:thoughtId')
-  .get(getOneThought);
+  .get(getOneThought)
 
 router
   .route('/:userId')
-  .post(createThought);
 
 router
   .route('/:userId/:thoughtId').put(addReaction)
